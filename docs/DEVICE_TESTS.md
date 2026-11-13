@@ -2,7 +2,7 @@
 
 Date: 13 November 2026 (WIB). Samsung SM-M325FV, Android 13/API33, physical 1080 x 2400. Existing density override338 was preserved. No emulator/tablet evidence is claimed.
 
-**Paused by user.** Latest APK builds but is not installed. Final password masking, CTA positioning and profile-divider fixes still need device verification; see [HANDOFF.md](../HANDOFF.md). The installed phone version predates the masking fix.
+**Paused by user.** Latest APK builds but is not installed. Final password masking, CTA positioning and profile-divider fixes still need device verification; see [HANDOFF.md](HANDOFF.md). The installed phone version predates the masking fix.
 
 The backend runs locally on loopback8080; USB reverse connects the debug APK. Synthetic accounts and pickup data are retained locally for inspection. No real pickup, email, WhatsApp message, call or payment is sent.
 

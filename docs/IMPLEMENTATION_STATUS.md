@@ -1,6 +1,6 @@
 # Implementation status
 
-Updated 13 November 2026 (WIB). **Paused again at the user's explicit request; a friend will continue. Do not resume without a new instruction.** Current handoff: [HANDOFF.md](../HANDOFF.md).
+Updated 13 November 2026 (WIB). **Paused again at the user's explicit request; a friend will continue. Do not resume without a new instruction.** Current handoff: [HANDOFF.md](HANDOFF.md).
 
 Latest APK builds/lints successfully but is **not installed**. The phone still runs the version preceding the final password-masking fix. Source/APK now restore password transformation after `setSingleLine`; populated-field device verification is pending. The affected synthetic password was reset. Final source-positioned CTA arrows and measured profile divider/stats also await recapture. Last review disposition remains **fix**. Full physical pickup retest passed twice; cumulative synthetic-account results are3100 points/7kg.
 
@@ -39,7 +39,7 @@ Cached high-fidelity references cover resident home/selection/orders/profile, co
 
 Figma MCP quota is exhausted. Do not repeat known quota-failing calls. Public browser viewing showed collector registration but did not provide detailed exports; no account, sharing or source design was changed. Exact collector registration/profile, OTP/reset-success, arrival, summary/history assets/comparison remain incomplete. Metadata and existing original assets support functionality, but do not establish exact fidelity. OTP/reset success share the downloaded recovery icon and account wave; arrival shares the existing address icon. Original frame exports and corresponding SVG/PNG assets, or restored quota, are needed to close those visual gaps.
 
-Existing `DESIGN.md`, `.impeccable/design.json` and the native surface brief preserve the original light system. Their prior review scope was resident home/selection only. New evidence is being checked by the independent finish reviewer. No HTML/CSS detector is applicable to native Views. Tablet testing is not verified.
+Existing `DESIGN.md`, `docs/design/design.json` and the native surface brief preserve the original light system. Their prior review scope was resident home/selection only. New evidence is being checked by the independent finish reviewer. No HTML/CSS detector is applicable to native Views. Tablet testing is not verified.
 
 ## Local operational notes
 

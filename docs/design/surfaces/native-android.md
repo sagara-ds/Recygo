@@ -38,4 +38,4 @@ Source references are `.impeccable/review/reference-2003_631.png` (Beranda Warga
 
 The documentation pass inspected both source references, both phone captures, `PRODUCT.md`, `docs/DESIGN_SOURCE.md`, `Ui.kt`, and `MainActivity.kt`. The capture review scope is Beranda Warga and Setor Sampah only. The first independent review found substantial compositional fidelity and requested small back-icon, selected-check, and type corrections; their final verdict belongs to the parent task's reviewer after recapture. This brief does not certify those pending corrections, all other screens, tablet layout, enlarged-font layout, gestures, or hardware performance.
 
-`DESIGN.md` and `.impeccable/design.json` record the extracted durable system. The surface-brief launcher returned exit code 1 without diagnostics during this pass, so this brief was written directly; runtime indexing has not been verified.
+`DESIGN.md` and `docs/design/design.json` record the extracted durable system. The surface-brief launcher returned exit code 1 without diagnostics during this pass, so this brief was written directly; runtime indexing has not been verified.
