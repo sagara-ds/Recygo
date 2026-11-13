@@ -1,0 +1,289 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-12T14:41:50.023Z",
+  "title": "Design System: Recygo",
+  "extensions": {
+    "colorMeta": {
+      "header-green": {
+        "role": "primary",
+        "displayName": "Header Green",
+        "tonalRamp": [
+          "oklch(15% 0.037 165)",
+          "oklch(26% 0.065 165)",
+          "oklch(37% 0.092 165)",
+          "oklch(49% 0.100 165)",
+          "oklch(61% 0.100 165)",
+          "oklch(73% 0.100 165)",
+          "oklch(85% 0.075 165)",
+          "oklch(95% 0.025 165)"
+        ]
+      },
+      "primary": {
+        "role": "primary",
+        "displayName": "Recygo Green",
+        "tonalRamp": [
+          "oklch(15% 0.041 162)",
+          "oklch(26% 0.072 162)",
+          "oklch(37% 0.102 162)",
+          "oklch(49% 0.110 162)",
+          "oklch(61% 0.110 162)",
+          "oklch(73% 0.110 162)",
+          "oklch(85% 0.083 162)",
+          "oklch(95% 0.028 162)"
+        ]
+      },
+      "cta": {
+        "role": "primary",
+        "displayName": "Action Green",
+        "tonalRamp": [
+          "oklch(15% 0.041 159)",
+          "oklch(26% 0.072 159)",
+          "oklch(37% 0.102 159)",
+          "oklch(49% 0.110 159)",
+          "oklch(61% 0.110 159)",
+          "oklch(73% 0.110 159)",
+          "oklch(85% 0.083 159)",
+          "oklch(95% 0.028 159)"
+        ]
+      },
+      "label-green": {
+        "role": "primary",
+        "displayName": "Label Green",
+        "tonalRamp": [
+          "oklch(15% 0.037 157)",
+          "oklch(26% 0.065 157)",
+          "oklch(37% 0.092 157)",
+          "oklch(49% 0.100 157)",
+          "oklch(61% 0.100 157)",
+          "oklch(73% 0.100 157)",
+          "oklch(85% 0.075 157)",
+          "oklch(95% 0.025 157)"
+        ]
+      },
+      "pale-green": {
+        "role": "primary",
+        "displayName": "Pale Mint",
+        "tonalRamp": [
+          "oklch(15% 0.015 161)",
+          "oklch(26% 0.026 161)",
+          "oklch(37% 0.037 161)",
+          "oklch(49% 0.040 161)",
+          "oklch(61% 0.040 161)",
+          "oklch(73% 0.040 161)",
+          "oklch(85% 0.030 161)",
+          "oklch(95% 0.010 161)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Surface",
+        "tonalRamp": [
+          "oklch(15% 0.000 0)",
+          "oklch(26% 0.000 0)",
+          "oklch(37% 0.000 0)",
+          "oklch(49% 0.000 0)",
+          "oklch(61% 0.000 0)",
+          "oklch(73% 0.000 0)",
+          "oklch(85% 0.000 0)",
+          "oklch(95% 0.000 0)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Deep Ink",
+        "tonalRamp": [
+          "oklch(15% 0.009 264)",
+          "oklch(26% 0.016 264)",
+          "oklch(37% 0.023 264)",
+          "oklch(49% 0.025 264)",
+          "oklch(61% 0.025 264)",
+          "oklch(73% 0.025 264)",
+          "oklch(85% 0.019 264)",
+          "oklch(95% 0.006 264)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Gray",
+        "tonalRamp": [
+          "oklch(15% 0.006 264)",
+          "oklch(26% 0.010 264)",
+          "oklch(37% 0.014 264)",
+          "oklch(49% 0.015 264)",
+          "oklch(61% 0.015 264)",
+          "oklch(73% 0.015 264)",
+          "oklch(85% 0.011 264)",
+          "oklch(95% 0.004 264)"
+        ]
+      },
+      "outline": {
+        "role": "neutral",
+        "displayName": "Fine Outline",
+        "tonalRamp": [
+          "oklch(15% 0.004 264)",
+          "oklch(26% 0.007 264)",
+          "oklch(37% 0.009 264)",
+          "oklch(49% 0.010 264)",
+          "oklch(61% 0.010 264)",
+          "oklch(73% 0.010 264)",
+          "oklch(85% 0.008 264)",
+          "oklch(95% 0.003 264)"
+        ]
+      },
+      "error": {
+        "role": "error",
+        "displayName": "Error Red",
+        "tonalRamp": [
+          "oklch(15% 0.045 28)",
+          "oklch(26% 0.078 28)",
+          "oklch(37% 0.111 28)",
+          "oklch(49% 0.120 28)",
+          "oklch(61% 0.120 28)",
+          "oklch(73% 0.120 28)",
+          "oklch(85% 0.090 28)",
+          "oklch(95% 0.030 28)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Balance",
+        "purpose": "Points balance."
+      },
+      "headline": {
+        "displayName": "Screen title",
+        "purpose": "Native screen context."
+      },
+      "title": {
+        "displayName": "Section title",
+        "purpose": "Source semibold section hierarchy."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Rates, fields, and ordinary content."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Source semibold names and labels."
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Supporting and demo copy; source-size action captions."
+      }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [],
+    "notes": [
+      "Tonal ramps are synthesized display-only OKLCH swatches, not shipped Android palette tokens.",
+      "HTML/CSS snippets adapt native components for the design panel. Pixel sizes represent 402-unit source-frame measurements. Browser hover/focus states are preview affordances, not verified native treatments.",
+      "Native source uses dp/sp scaling, Android insets and native interaction semantics. No HTML detector applies to this app."
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Native filled pill; preview shows source-frame dimensions.",
+      "html": "<button class=\"ds-primary\">Lanjut</button>",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-primary{background:#16C47F;color:#fff;border:0;border-radius:32px;min-height:64px;padding:12px 16px;font-size:20px;font-weight:700;width:100%}.ds-primary:hover{filter:brightness(.98)}.ds-primary:focus-visible{outline:2px solid #111827;outline-offset:3px}.ds-primary:active{filter:brightness(.94)}"
+    },
+    {
+      "name": "Secondary Action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Pale secondary pill used for supporting actions.",
+      "html": "<button class=\"ds-secondary\">Muat ulang</button>",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-secondary{background:#E3F7EE;color:#16A66A;border:0;border-radius:32px;min-height:64px;padding:12px 16px;font-size:20px;font-weight:700;width:100%}.ds-secondary:hover{filter:brightness(.98)}.ds-secondary:focus-visible{outline:2px solid #111827;outline-offset:3px}.ds-secondary:active{filter:brightness(.94)}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "White outlined native input; panel focus treatment is illustrative.",
+      "html": "<input class=\"ds-field\" aria-label=\"Alamat penjemputan\" placeholder=\"Alamat penjemputan\">",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-field{background:#fff;color:#111827;border:1px solid #E5E7EB;border-radius:16px;min-height:56px;padding:14px 16px;font-size:16px}.ds-field::placeholder{color:#6B7280}.ds-field:hover{border-color:#6B7280}.ds-field:focus-visible{outline:2px solid #111827;outline-offset:3px}"
+    },
+    {
+      "name": "Resident Navigation",
+      "kind": "nav",
+      "refersTo": "navigation",
+      "description": "Four destinations; active green, inactive gray.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navigasi\"><button aria-current=\"page\">Beranda</button><button>Pesanan</button><button>Riwayat</button><button>Profil</button></nav>",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-nav{display:flex;background:#fff;border-top:1px solid #E5E7EB;padding:6px 4px}.ds-nav button{flex:1;border:0;background:#fff;color:#6B7280;min-height:48px;padding:12px 0;font:600 15px Inter,sans-serif}.ds-nav button[aria-current]{color:#16A66A}.ds-nav button:hover{background:#E3F7EE}.ds-nav button:focus-visible{outline:2px solid #111827;outline-offset:3px}.ds-nav button:active{background:#E3F7EE}"
+    },
+    {
+      "name": "Status Chip",
+      "kind": "chip",
+      "refersTo": "status-chip",
+      "description": "Order-state label, never proof of fabricated activity.",
+      "html": "<span class=\"ds-chip\">Dijemput</span>",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-chip{display:inline-block;background:#E3F7EE;color:#16A66A;border-radius:16px;padding:6px 10px;font-size:12px;font-weight:700}"
+    },
+    {
+      "name": "Content Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Flat white outlined container; sample uses the honest empty state.",
+      "html": "<section class=\"ds-card\"><strong>Belum ada pesanan</strong><p>Mulai dengan memilih sampah yang ingin dijemput.</p></section>",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-card{background:#fff;color:#111827;border:1px solid #E5E7EB;border-radius:24px;padding:16px}.ds-card strong{font-size:17px;font-weight:700}.ds-card p{font-size:14px;color:#6B7280;margin:8px 0 0}"
+    },
+    {
+      "name": "Waste Selection Row",
+      "kind": "custom",
+      "refersTo": "selection-row",
+      "description": "Source-style circular selection with semantic checkbox state.",
+      "html": "<label class=\"ds-select\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"M10 2H14V5L16 8V20C16 21.1 15.1 22 14 22H10C8.9 22 8 21.1 8 20V8L10 5V2ZM8 12H16\" stroke=\"#16A66A\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg><span><strong>Botol Plastik</strong><small>500 poin/kg</small></span><input type=\"checkbox\" aria-label=\"Pilih Botol Plastik\"></label>",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-select{display:flex;align-items:center;gap:15px;min-height:73px;background:#fff;border:1px solid #E5E7EB;border-radius:24px;padding:12px;color:#16A66A;cursor:pointer}.ds-select svg{background:#E3F7EE;border-radius:14px;padding:8px}.ds-select span{flex:1}.ds-select strong{display:block;font-size:16px;font-weight:600}.ds-select small{display:block;font-size:16px;color:#6B7280}.ds-select input{appearance:none;width:24px;height:22px;border:1px solid #E5E7EB;border-radius:50%;background:#fff}.ds-select input:checked{background:#16A66A url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='m7 11 3 3 7-7' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E\") center/cover}.ds-select:hover{border-color:#6B7280}.ds-select input:focus-visible{outline:2px solid #111827;outline-offset:3px}"
+    },
+    {
+      "name": "Dashboard Action Card",
+      "kind": "card",
+      "refersTo": "action-card",
+      "description": "Home shortcut proportions and small semibold label.",
+      "html": "<button class=\"ds-action\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\"><path d=\"m12 3 9 5v9l-9 5-9-5V8l9-5Zm0 10 9-5M12 13 3 8m9 5v9\" stroke=\"#16A66A\" stroke-width=\"1.8\" stroke-linejoin=\"round\"/></svg><span>Setor<br>sampah</span></button>",
+      "css": ".ds-primary,.ds-secondary,.ds-field,.ds-nav,.ds-chip,.ds-card,.ds-select,.ds-action{font-family:Inter,sans-serif}.ds-action{display:flex;flex-direction:column;align-items:flex-start;gap:12px;background:#fff;color:#16A66A;border:1px solid #E5E7EB;border-radius:18px;min-height:124px;padding:12px;text-align:left;font-size:13px;font-weight:600}.ds-action svg{background:#E3F7EE;border-radius:12px;padding:8px}.ds-action:hover{border-color:#6B7280}.ds-action:focus-visible{outline:2px solid #111827;outline-offset:3px}.ds-action:active{background:#E3F7EE}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The original Recygo light Figma",
+    "overview": "The supplied Recygo design owns the identity: fresh green fields, white surfaces, dark text, pale icon tiles, rounded outlined rows, and clear Indonesian labels. Preserve the visual relationships of [Figma file 7tPzzgzyPQCkhl6UnuFd98, page 0:1](https://www.figma.com/design/7tPzzgzyPQCkhl6UnuFd98/Design-Apk?node-id=0-1). This name records the user's chosen source; it introduces no replacement aesthetic.\n\nThe implementation is native Android Views in Kotlin. Native system bars, window/keyboard insets, real data, and honest demo states adapt the supplied design to a working app. The automatic dark palette and recomposed dashboard were explicitly rejected. The light source remains binding even when the phone uses dark mode.",
+    "keyCharacteristics": [
+      "Light surfaces with distinct header, action, and label greens.",
+      "Local Inter typography and original Figma SVG assets.",
+      "Rounded white containers with fine neutral outlines.",
+      "Native Android behavior around the supplied visual identity."
+    ],
+    "rules": [
+      {
+        "name": "The Source Palette Rule",
+        "body": "Keep the supplied light palette. Do not derive a replacement identity from system dark mode or wallpaper colors.",
+        "section": "colors"
+      },
+      {
+        "name": "The Inter Weight Rule",
+        "body": "Preserve regular, semibold, and bold as distinct weights; keep font scaling enabled.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Surface Rule",
+        "body": "Use the existing outline and tonal separation before adding elevation.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the original light Figma identity and source assets.",
+      "Do scale source geometry from the 402-unit frame while retaining native insets and sp font scaling.",
+      "Do keep native system bars and the device's existing density.",
+      "Do show actual demo balances, empty orders, and unavailable categories honestly.",
+      "Do compare rendered native captures with the matching source screen before claiming fidelity."
+    ],
+    "donts": [
+      "Don't reintroduce automatic dark theming or replace the supplied dashboard composition.",
+      "Don't copy drawn iOS system bars into Android content.",
+      "Don't replace source icons with glyphs or treat semibold as bold.",
+      "Don't claim visual verification of screens beyond Beranda Warga and Setor Sampah from the current review evidence."
+    ]
+  }
+}
