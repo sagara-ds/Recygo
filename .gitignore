@@ -1,0 +1,40 @@
+# Build tools and generated output (keep gradle/wrapper and wrapper scripts).
+.gradle/
+.kotlin/
+**/build/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.apks
+*.hprof
+hs_err_pid*
+
+# Machine-specific SDK and editor settings.
+local.properties
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Credentials, local demo accounts, database and OTP inbox.
+.env
+.env.*
+!.env.example
+backend/data/
+**/google-services.json
+*.jks
+*.keystore
+*.p12
+*.pfx
+
+# Download cache, device captures and local verification artifacts.
+.figma-cache/
+.impeccable/review/
+captures/
+*.log
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
