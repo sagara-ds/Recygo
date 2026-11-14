@@ -16,6 +16,7 @@ Proyek kami untuk **Logicodix 2026** · Kategori **Mobile Android** · Bahasa **
 | 4 | Denistia Hermawan | UI/UX Designer (Figma) |
 
 > **Catatan Kontribusi:** Seluruh desain antarmuka (*UI/UX*), alur pengguna (*user flow*), dan aset visual dikerjakan oleh **Denistia Hermawan** di Figma sebelum diimplementasikan ke aplikasi Android oleh tim developer, sehingga riwayat *commit* Git hanya menampilkan kontributor kode.
+| Figma tim | Desain antarmuka, komponen UI, dan aset visual Recygo oleh **Denistia Hermawan** — [Lihat Desain di Figma](https://www.figma.com/design/7tPzzgzyPQCkhl6UnuFd98/Design-Aplikasi-RecyGo?node-id=0-1&t=G8txcHDWxaJwnrIR-1) |
 
 ## Masalah yang kami sasar
 
