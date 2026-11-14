@@ -56,6 +56,21 @@ Solusi kami ditujukan kepada **warga/rumah tangga dan pengepul**. Warga mengajuk
 | Build | Gradle Wrapper 8.14, Android Gradle Plugin 8.11.1 |
 | Pengujian | JUnit Jupiter 5.11.4, Java HTTP Client, Python untuk smoke test |
 
+## Dokumentasi frontend
+
+Frontend memakai **Kotlin dengan Android native Views**, **AndroidSVG 1.4** untuk SVG, dan font **Inter** lokal. Layar disusun secara programatis. Berkas di `app/src/main/java/id/recygo/app/`:
+
+| Berkas | Peran |
+| --- | --- |
+| `MainActivity.kt` | Mengelola navigasi, sesi aktif, pemanggilan API di worker, beranda warga/pengepul, pengajuan, perubahan status, penimbangan, profil, riwayat, serta polling dan notifikasi lokal perubahan pesanan. |
+| `AccountFlow.kt` | Mengelola splash/onboarding, izin opsional, pilihan peran, pendaftaran, login, OTP, reset password, dan pemilihan foto. |
+| `Api.kt` | Klien HTTP/JSON dengan Bearer token dan kunci idempotensi; model respons pengguna/sampah/pesanan, penanganan error, serta pemetaan label status. |
+| `AuthCanvas.kt` | Menyusun komponen layar akun mengikuti koordinat desain; beralih ke susunan vertikal saat font diperbesar, memuat ilustrasi PNG/SVG, dan menyediakan field password tersamarkan dengan tombol visibilitas. |
+| `SessionVault.kt` | Menyimpan token sesi terenkripsi AES-GCM di SharedPreferences dengan kunci di Android Keystore; membaca/menghapus sesi tanpa menyimpan password. |
+| `Ui.kt` | Komponen native bersama, warna, skala ukuran, tipografi Inter, tombol/input/kartu, pemuatan SVG melalui AndroidSVG, serta format angka dan berat Indonesia. |
+
+Resource `app/src/main/res/` berisi `drawable/` untuk ikon XML, `values/` dan `values-v27/` untuk tema, serta `xml/` untuk aturan jaringan dan ekstraksi data. Ekspor SVG/PNG Figma berada di `app/src/main/assets/figma/`; font `InterVariable.ttf` dan lisensinya berada di `app/src/main/assets/fonts/`. [Manifest aset](docs/figma-assets.json) memetakan `screen`, `name`, URL sumber, dan nama berkas lokal. [scripts/check-assets.py](scripts/check-assets.py) memeriksa keberadaan/isi berkas ekspor serta referensi aset dalam Kotlin; aplikasi memuat aset lokal saat berjalan.
+
 ## Arsitektur dan alur data
 
 ```mermaid
@@ -70,6 +85,41 @@ flowchart LR
 ```
 
 Backend menetapkan pemilik, penugasan, status, dan poin; transaksi mencegah dua pengepul menerima pesanan yang sama. Status utama: **Diajukan → Dijadwalkan → Dijemput → Pengepul tiba → Ditimbang → Selesai**. Aplikasi mengambil perubahan saat halaman dibuka atau dimuat ulang. Struktur: `app/` untuk Android, `backend/` untuk API/tes, `scripts/` untuk demo, dan `docs/` untuk dokumentasi. Detail kontrak: [API.md](docs/API.md).
+
+### Diagram alur program
+
+Alur utama berikut mengikuti label di `Api.kt` dan validasi transisi di `Service.kt`; penimbangan belum menyelesaikan transaksi sebelum warga mengonfirmasi.
+
+```mermaid
+stateDiagram-v2
+    state "Diajukan (REQUESTED)" as Diajukan
+    state "Dijadwalkan (SCHEDULED)" as Dijadwalkan
+    state "Dijemput (ON_THE_WAY)" as Dijemput
+    state "Pengepul tiba (ARRIVED)" as Tiba
+    state "Ditimbang (AWAITING_CONFIRMATION)" as Ditimbang
+    state "Selesai (COMPLETED)" as Selesai
+    [*] --> Diajukan : Warga mengajukan
+    Diajukan --> Dijadwalkan : Pengepul menerima
+    Dijadwalkan --> Dijemput : Pengepul mulai perjalanan
+    Dijemput --> Tiba : Pengepul konfirmasi tiba
+    Tiba --> Ditimbang : Pengepul mengirim berat aktual
+    Ditimbang --> Selesai : Warga mengonfirmasi
+    Selesai --> [*]
+```
+
+## Skema database
+
+Skema SQLite berikut berasal dari perintah `CREATE TABLE` di [Store.kt](backend/src/main/kotlin/id/recygo/backend/Store.kt), tanpa isi data. PK berarti primary key dan FK mengacu ke `users.id`.
+
+| Tabel | Kolom dan relasi |
+| --- | --- |
+| `users` | `id` TEXT PK; `name`, `email`, `role`, `salt`, `hash` TEXT NOT NULL; `email` UNIQUE. `salt` dan `hash` digunakan untuk verifikasi password. |
+| `sessions` | `hash` TEXT PK; `user_id` TEXT NOT NULL FK; `expires` INTEGER NOT NULL. Menyimpan hash token dan masa berlaku sesi. |
+| `orders` | `id` TEXT PK; `owner_id` TEXT NOT NULL FK; `collector_id` TEXT FK (boleh NULL); `status`, `payload`, `request_key`, `fingerprint` TEXT NOT NULL; pasangan (`owner_id`, `request_key`) UNIQUE untuk idempotensi. |
+| `profiles` | `user_id` TEXT PK sekaligus FK; `phone_hash` TEXT UNIQUE NOT NULL; `payload` TEXT NOT NULL. |
+| `auth_challenges` | `id` TEXT PK; `purpose`, `email`, `code_hash`, `payload` TEXT NOT NULL; `expires`, `last_sent` INTEGER NOT NULL; `attempts`, `resends`, `verified`, `used`, `grant_expires` INTEGER NOT NULL DEFAULT 0; `grant_hash` TEXT (boleh NULL). |
+
+`orders.payload` menyimpan JSON rincian pesanan, termasuk jenis/berat perkiraan, berat aktual, jadwal, dan poin; rincian itu bukan kolom tabel terpisah. `profiles.payload` dan `auth_challenges.payload` menyimpan data terenkripsi sesuai pengelolaan akun di `Accounts.kt`.
 
 ## Instalasi dan menjalankan
 
@@ -112,6 +162,8 @@ Ganti `SERIAL_PERANGKAT` dengan serial HP. Pertahankan kabel dan backend aktif; 
 | `OTP_SIGNING_KEY` | Kunci minimal 32 byte untuk HMAC OTP/enkripsi profil; jangan diganti tanpa migrasi |
 
 ## Unduh APK dan cara mencoba
+
+APK dan video demo dibangun dari commit d1b0841; commit setelahnya hanya mengubah dokumentasi.
 
 Halaman distribusi APK demo: [GitHub Releases](https://github.com/sagara-ds/Recygo/releases). Pilih varian sesuai perangkat:
 
