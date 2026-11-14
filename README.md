@@ -111,6 +111,27 @@ Ganti `SERIAL_PERANGKAT` dengan serial HP. Pertahankan kabel dan backend aktif; 
 | `DEMO_COLLECTOR_PASSWORD` | Password saat akun pengepul pertama dibuat |
 | `OTP_SIGNING_KEY` | Kunci minimal 32 byte untuk HMAC OTP/enkripsi profil; jangan diganti tanpa migrasi |
 
+## Unduh APK dan cara mencoba
+
+Halaman distribusi APK demo: [GitHub Releases](https://github.com/sagara-ds/Recygo/releases). Pilih varian sesuai perangkat:
+
+| APK | Perangkat dan koneksi backend |
+| --- | --- |
+| `recygo-emulator-debug.apk` | Android Emulator; build default memakai `http://10.0.2.2:8080` untuk backend di komputer yang sama. |
+| `recygo-usb-debug.apk` | HP fisik melalui USB; dibangun dengan `-PrecygoApiUrl=http://127.0.0.1:8080` dan memerlukan `adb reverse tcp:8080 tcp:8080`. |
+
+**Kedua APK membutuhkan backend lokal yang berjalan. APK saja di HP tanpa backend tidak bisa login.** Kami memakai video demo dan aplikasi yang dapat dijalankan penuh di localhost untuk penilaian, sesuai ketentuan Grand Final; tidak ada server publik. APK di Releases memudahkan instalasi untuk mencoba demo lokal.
+
+Siapkan backend dari source sesuai [Instalasi dan menjalankan](#instalasi-dan-menjalankan): jalankan `:backend:installDist`, lalu `scripts/setup-demo.ps1 -FixedDemoAccounts` pada checkout baru dan `scripts/run-backend.ps1`. Biarkan backend aktif. Pasang APK yang sesuai pada perangkat; untuk HP, pertahankan kabel USB dan jalankan reverse setelah perangkat terhubung:
+
+```powershell
+adb devices
+adb -s SERIAL_PERANGKAT reverse tcp:8080 tcp:8080
+adb -s SERIAL_PERANGKAT install -r recygo-usb-debug.apk
+```
+
+Untuk emulator, jalankan `adb -s SERIAL_EMULATOR install -r recygo-emulator-debug.apk`. Ganti serial sesuai `adb devices` dan jalankan perintah instalasi dari folder unduhan APK. Gunakan akun dan alur pada [Akun demo dan cara mencoba](#akun-demo-dan-cara-mencoba); setup mempertahankan akun/database lokal yang sudah ada. Ini **build debug untuk demo lokal**, bukan layanan publik.
+
 ## Akun demo dan cara mencoba
 
 Kredensial berikut **sintetis dan sengaja publik**, hanya untuk setup lokal baru dengan `-FixedDemoAccounts`. Jangan gunakan untuk layanan publik atau data pribadi.
