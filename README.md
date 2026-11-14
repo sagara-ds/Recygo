@@ -138,7 +138,7 @@ Kami memakai hash password PBKDF2-HMAC-SHA256 bersalt, hash token pada server, s
 
 ## Batasan MVP dan rencana lanjutan
 
-MVP berjalan lokal tanpa dispatch atau mitra terverifikasi. SMTP/WhatsApp, GPS/rute/ETA aktual, chat/telepon, push server, pembayaran, penarikan saldo, penukaran hadiah, dan deployment publik belum tersedia. Peta merupakan ilustrasi, notifikasi lokal mengikuti pengambilan status, dan antrean belum disaring berdasarkan wilayah. Poin simulasi tidak bernilai uang. Prioritas lanjutan kami adalah validasi bersama warga/pengepul, integrasi mitra dan pengiriman OTP, pembatasan wilayah, HTTPS, kebijakan retensi/penghapusan data, serta penanganan perselisihan berat.
+MVP berjalan lokal tanpa dispatch atau mitra terverifikasi. SMTP/WhatsApp, GPS/rute/ETA aktual, chat/telepon, push server, pembayaran, penarikan saldo, penukaran hadiah, dan deployment publik belum tersedia. Peta merupakan ilustrasi, notifikasi lokal mengikuti pengambilan status, dan antrean belum disaring berdasarkan wilayah. Pesanan baru dari warga tampil di beranda pengepul melalui pembaruan otomatis in-app saat aplikasi terbuka (siklus ±20 detik); notifikasi saat aplikasi tertutup belum tersedia dan direncanakan memakai push (FCM) atau service latar. Poin simulasi tidak bernilai uang. Prioritas lanjutan kami adalah validasi bersama warga/pengepul, integrasi mitra dan pengiriman OTP, pembatasan wilayah, HTTPS, kebijakan retensi/penghapusan data, serta penanganan perselisihan berat.
 
 ## Penggunaan AI
 
