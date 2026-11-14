@@ -6,7 +6,7 @@ Proyek kami untuk **Logicodix 2026** · Kategori **Mobile Android** · Bahasa **
 
 ## Tim
 
-**Nama tim:** [Masukan text...]
+**Nama tim:** Masukan text...
 
 | No. | Anggota | Peran |
 | --- | --- | --- |
