@@ -47,6 +47,9 @@ class MainActivity: Activity() {
     private var profileSection="all"
     private var historyPeriod="today"
     private var weightDraft=JSONObject()
+    private val pollHandler=android.os.Handler(android.os.Looper.getMainLooper())
+    private var pollRunning=false
+    private val pollIntervalMs=20_000L
 
     override fun onCreate(state: Bundle?) {
         super.onCreate(state)
@@ -187,12 +190,47 @@ class MainActivity: Activity() {
         materials=List(m.length()) { i -> m.getJSONObject(i).let { Waste(it.getString("id"),it.getString("name"),it.getInt("pointsPerKg"),it.getString("guide")) } }
         val s=cat.getJSONArray("slots"); slots=List(s.length()) { s.getString(it) }
         orders=parseOrders(list); render()
+        if(me.collector)startPolling()
     }
     private fun parseOrders(a: JSONArray)=List(a.length()) { Order.from(a.getJSONObject(it)) }
     private fun refresh() {
         if(user==null || busy)return
         perform(work={parseOrders(api.request("/api/orders").getJSONArray("orders"))}) { updated -> notifyChanges(orders,updated); orders=updated; render() }
     }
+
+    private fun startPolling() {
+        if(pollRunning)return
+        pollRunning=true
+        pollHandler.postDelayed(pollTick,pollIntervalMs)
+    }
+    private fun stopPolling() {
+        pollRunning=false
+        pollHandler.removeCallbacks(pollTick)
+    }
+    private val pollTick=object: Runnable {
+        override fun run() {
+            if(pollRunning && user?.collector==true && page=="home" && !busy)silentPoll()
+            if(pollRunning)pollHandler.postDelayed(this,pollIntervalMs)
+        }
+    }
+    private fun silentPoll() {
+        val previous=orders; val gen=generation
+        worker.execute {
+            val result=runCatching { parseOrders(api.request("/api/orders").getJSONArray("orders")) }
+            runOnUiThread {
+                if(isDestroyed || isFinishing || generation!=gen)return@runOnUiThread
+                if(!pollRunning || busy || user?.collector!=true || page!="home")return@runOnUiThread
+                result.getOrNull()?.let { updated ->
+                    if(orderKeys(previous)!=orderKeys(updated)) {
+                        val fresh=updated.count { order -> order.status=="REQUESTED" && previous.none { it.id==order.id } }
+                        if(fresh>0)Toast.makeText(this,"$fresh pesanan baru masuk dari warga",Toast.LENGTH_SHORT).show()
+                        orders=updated; render()
+                    }
+                }
+            }
+        }
+    }
+    private fun orderKeys(list: List<Order>)=list.map { "${it.id}:${it.status}:${it.updatedAt}" }.toSet()
 
     private fun login() {
         accountFlow.showFind()
@@ -216,6 +254,7 @@ class MainActivity: Activity() {
         getSystemService(android.app.NotificationManager::class.java).createNotificationChannel(android.app.NotificationChannel("orders","Status pesanan Recygo",android.app.NotificationManager.IMPORTANCE_DEFAULT))
     }
     private fun notifyChanges(previous: List<Order>,updated: List<Order>) {
+        if(user?.collector==true)return
         if(Build.VERSION.SDK_INT>=33 && checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)!=android.content.pm.PackageManager.PERMISSION_GRANTED)return
         prepareNotificationChannel()
         val manager=getSystemService(android.app.NotificationManager::class.java)
@@ -268,13 +307,13 @@ class MainActivity: Activity() {
         headerContent.addView(panel); ui.gap(headerContent,72); header.addView(headerContent)
         outer.addView(header,ui.lp())
         val actions=ui.row()
-        val actionData=if(account.collector)listOf(Triple("Pesanan\nmasuk","imgPesanan1","orders"),Triple("Penjemputan","imgSetorSampah1","orders"),Triple("Riwayat","imgRiwayat1","history")) else listOf(Triple("Setor\nsampah","imgSetorSampah1","select"),Triple("Pesanan","imgPesanan1","orders"),Triple("Riwayat","imgRiwayat1","history"))
+        val actionData=listOf(Triple("Setor sampah","imgSetorSampah1","select"))
         actionData.forEachIndexed { i,(label,asset,target) ->
-            val action=ui.card(12).apply { background=ui.box(ui.surface,18,true); minimumHeight=ui.dp(124); isClickable=true; isFocusable=true; contentDescription=label.replace('\n',' '); setOnClickListener { go(target,true) } }
+            val action=ui.card(12).apply { background=ui.box(ui.surface,18,true); minimumHeight=ui.dp(72); orientation=LinearLayout.HORIZONTAL; gravity=Gravity.CENTER_VERTICAL; setPadding(ui.dp(24),0,ui.dp(24),0); isClickable=true; isFocusable=true; contentDescription=label.replace('\n',' '); setOnClickListener { go(target,true) } }
             val actionIcon=FrameLayout(this)
             actionIcon.addView(ui.icon("2003:631",listOf("imgGroup180","imgGroup181","imgGroup182")[i],38,39),FrameLayout.LayoutParams(ui.dp(38),ui.dp(39)))
             actionIcon.addView(ui.icon("2003:631",asset,22,22),FrameLayout.LayoutParams(ui.dp(22),ui.dp(22),Gravity.CENTER))
-            action.addView(actionIcon,ui.lp(38,39)); ui.gap(action,12); action.addView(ui.text(label,13,true,ui.greenText,600))
+            action.addView(actionIcon,ui.lp(38,39)); ui.gap(action,14); action.addView(ui.text(label,15,true,ui.greenText,600))
             actions.addView(action,LinearLayout.LayoutParams(0,-2,1f).apply { if(i>0)marginStart=ui.dp(25) })
         }
         outer.addView(actions,ui.lp().apply { marginStart=ui.dp(35); marginEnd=ui.dp(32); topMargin=ui.dp(-44) })
@@ -304,7 +343,22 @@ class MainActivity: Activity() {
         val label=ui.column().apply { setPadding(ui.dp(8),0,0,0) }
         label.addView(ui.text("Selamat datang",14,color=ui.muted)); ui.gap(label,4); label.addView(ui.text(account.name,18,true))
         greeting.addView(label,LinearLayout.LayoutParams(0,-2,1f))
-        greeting.addView(ui.icon("2060:547","imgGroup128",24,24)); content.addView(greeting); ui.gap(content,28)
+        val bell=FrameLayout(this).apply {
+            contentDescription="Lihat pembaruan pesanan"; isClickable=true; isFocusable=true
+            setOnClickListener { go("orders",true) }
+        }
+        bell.addView(ui.icon("2003:631","imgEllipse11",48,48),FrameLayout.LayoutParams(ui.dp(48),ui.dp(48)))
+        bell.addView(ui.icon("2003:631","imgGroup93",19,20),FrameLayout.LayoutParams(ui.dp(19),ui.dp(20),Gravity.CENTER))
+        val showNew=getSharedPreferences("collector",MODE_PRIVATE).getBoolean("showNew",true)
+        val pending=orders.count { it.status=="REQUESTED" && it.id !in skippedQueue && showNew }
+        if(pending>0) {
+            val badge=ui.text(if(pending>9)"9+" else pending.toString(),11,true,Color.WHITE).apply {
+                gravity=Gravity.CENTER; background=ui.box(Color.rgb(219,21,20),24); setPadding(0,0,0,0)
+                minimumWidth=ui.dp(18); minimumHeight=ui.dp(18)
+            }
+            bell.addView(badge,FrameLayout.LayoutParams(-2,-2,Gravity.END or Gravity.TOP).apply { marginEnd=ui.dp(2); topMargin=ui.dp(2) })
+        }
+        greeting.addView(bell,ui.lp(48,48)); content.addView(greeting); ui.gap(content,28)
         val done=orders.filter { it.status=="COMPLETED" }
         val panel=FrameLayout(this).apply { background=ui.box(Color.rgb(45,204,144),18) }
         fun inPanel(view: View,x: Int,y: Int,w: Int,h: Int=-2) { panel.addView(view,FrameLayout.LayoutParams(ui.dp(w),if(h<0)h else ui.dp(h)).apply { marginStart=ui.dp(x); topMargin=ui.dp(y) }) }
@@ -327,17 +381,7 @@ class MainActivity: Activity() {
         availabilityRow.addView(status,LinearLayout.LayoutParams(0,-2,1f))
         availabilityRow.addView(Switch(this).apply { isChecked=available; contentDescription="Tampilkan pesanan baru"; thumbTintList=android.content.res.ColorStateList.valueOf(Color.WHITE); trackTintList=android.content.res.ColorStateList.valueOf(ui.cta); minHeight=ui.dp(48); setOnCheckedChangeListener { _,v -> preferences.edit().putBoolean("showNew",v).apply(); render() } },ui.lp(64,48))
         availability.addView(availabilityRow); content.addView(availability); ui.gap(content,28)
-        val actions=ui.row().apply { gravity=Gravity.TOP }
-        listOf(Triple("Pesanan\nMasuk","imgGroup","orders"),Triple("Penjemputan","imgGroup102","orders"),Triple("Timbangan","imgGroup103","orders"),Triple("Riwayat","imgGroup104","history")).forEachIndexed { i,(caption,asset,destination) ->
-            val item=ui.column().apply { gravity=Gravity.CENTER; isClickable=true; isFocusable=true; contentDescription=caption.replace('\n',' '); setOnClickListener { go(destination,true) } }
-            item.addView(if(i==0)FrameLayout(this).apply {
-                background=ui.box(ui.pale,18); layoutParams=ui.lp(64,64)
-                addView(ui.icon("2060:547",asset,30,27),FrameLayout.LayoutParams(ui.dp(30),ui.dp(27),Gravity.CENTER))
-            } else ui.icon("2060:547",asset,64,64))
-            ui.gap(item,8); item.addView(ui.text(caption,11,true).apply { gravity=Gravity.CENTER })
-            actions.addView(item,LinearLayout.LayoutParams(0,-2,1f))
-        }
-        content.addView(actions); ui.gap(content,32); content.addView(ui.text("Pesanan Terbaru",20,true,weight=600)); ui.gap(content,14)
+        content.addView(ui.text("Pesanan Terbaru",20,true,weight=600)); ui.gap(content,14)
         val queue=orders.filter { !it.complete && it.id !in skippedQueue && (available || it.status!="REQUESTED") }
         if(queue.isEmpty())empty("Belum ada pesanan baru","Muat ulang untuk melihat permintaan warga.") else queue.take(3).forEach { order ->
             val card=ui.card(14)
@@ -867,6 +911,7 @@ class MainActivity: Activity() {
             .setNegativeButton("Kembali",null).setPositiveButton(if(recovery)"Lanjut" else "Keluar") { _,_ ->
                 perform(work={api.request("/api/auth/logout",JSONObject())}) {
                     vault.clear(); api.token=""; user=null; accountProfile=JSONObject(); orders=emptyList(); selected.clear(); draft=JSONObject(); draftKey=UUID.randomUUID().toString()
+                    stopPolling()
                     if(recovery)accountFlow.showRecovery(email) else login()
                 }
             }.show()
@@ -885,14 +930,14 @@ class MainActivity: Activity() {
             input("phone","No WhatsApp",accountProfile.optString("phone"),InputType.TYPE_CLASS_PHONE)
             content.addView(ui.text(account.email,14,color=ui.muted)); ui.gap(content,20)
         }
-        if(profileSection!="vehicle") {
+        if(profileSection=="area") {
             input("address","Alamat",accountProfile.optString("address"),InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
             input("rt","RT",accountProfile.optString("rt"),InputType.TYPE_CLASS_NUMBER)
             input("rw","RW",accountProfile.optString("rw"),InputType.TYPE_CLASS_NUMBER)
             if(account.collector)input("area","Wilayah layanan demo",accountProfile.optString("area"))
         }
         var vehicle: Spinner?=null
-        if(account.collector && profileSection!="area") {
+        if(account.collector && profileSection=="vehicle") {
             content.addView(ui.text("Jenis kendaraan",15,true)); ui.gap(content,8)
             vehicle=Spinner(this).apply {
                 adapter=ArrayAdapter(this@MainActivity,android.R.layout.simple_spinner_dropdown_item,listOf("Motor","Pick-up","Truk"))
@@ -934,5 +979,7 @@ class MainActivity: Activity() {
     @Deprecated("External camera/document activity bridge")
     override fun onActivityResult(requestCode: Int,resultCode: Int,data: Intent?) { super.onActivityResult(requestCode,resultCode,data); if(requestCode in 711..712)accountFlow.photoResult(requestCode,resultCode,data) }
     override fun onRequestPermissionsResult(requestCode: Int,permissions: Array<out String>,grantResults: IntArray) { super.onRequestPermissionsResult(requestCode,permissions,grantResults); if(requestCode in 801..802)accountFlow.permissionResult(requestCode) }
-    override fun onDestroy() { accountFlow.close(); worker.shutdownNow(); super.onDestroy() }
+    override fun onResume() { super.onResume(); if(user?.collector==true)startPolling() }
+    override fun onPause() { super.onPause(); stopPolling() }
+    override fun onDestroy() { pollHandler.removeCallbacksAndMessages(null); accountFlow.close(); worker.shutdownNow(); super.onDestroy() }
 }
